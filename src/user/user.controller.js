@@ -33,34 +33,6 @@ export const updatePassword = async (req, res) => {
         });
     }
 };
-
-
-export const initializeAdmin = async () => {
-    try {
-        const adminExists = await User.findOne({ role: "ADMIN_ROLE" }); 
-        if (!adminExists) {
-
-            const hashedPassword = await hash("r3AlMadr1D15");
-
-            const adminUser = {
-                username: "bryanth87",
-                email: "bryanth87@gmail.com",
-                password: hashedPassword,
-                role: "ADMIN_ROLE"
-            };
-            const admin = new User(adminUser);
-            await admin.save();
-            console.log("Admin created successfully");
-        } else {
-            console.log("Admin already exists");
-        }
-
-    } catch (error) {
-        console.error("Error creating admin:", error);
-    }
-
-};
-initializeAdmin();
  
 export const editProfile = async (req, res) => {
     try {
@@ -72,7 +44,7 @@ export const editProfile = async (req, res) => {
         }
 
         const user = await User.findByIdAndUpdate(usuario._id,  data, { new: true });
-        
+
         return res.status(200).json({
             message: "Perfil actualizado",
             user
